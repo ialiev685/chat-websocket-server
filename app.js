@@ -1,7 +1,9 @@
+const express = require("express");
+const app = express();
+const server = require("http").createServer(app);
 const ws = require("ws");
-const wss = new ws.Server({ port: 5000 }, () => {
-  console.log("Сервер запустился на порту 5000");
-});
+
+const wss = new ws.Server({ server: server });
 
 const clients = [];
 
@@ -34,3 +36,9 @@ const sendMessage = (message) => {
     client.send(JSON.stringify(message));
   });
 };
+
+app.get("/", (req, res) => res.send("hello world!"));
+
+server.listen(5000, () => {
+  console.log("Сервер запустился на порту 5000");
+});
