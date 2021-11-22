@@ -1,11 +1,18 @@
+const { log } = require("console");
 const express = require("express");
 const app = express();
+const path = require("path");
 const server = require("http").createServer(app);
 const ws = require("ws");
 
 const wss = new ws.Server({ server: server });
 
 const clients = [];
+
+app.use(express.static(path.join(__dirname, "build")));
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 wss.on("connection", (newClient) => {
   clients.push(newClient);
@@ -19,6 +26,8 @@ wss.on("connection", (newClient) => {
       case "message":
         sendMessage(msg);
         break;
+      default:
+        return;
     }
   });
   newClient.on("close", (code, reason) => {
