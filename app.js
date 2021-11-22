@@ -9,10 +9,10 @@ const wss = new ws.Server({ server: server });
 
 const clients = [];
 
-app.use(express.static(path.join(__dirname, "build")));
-app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+// app.use(express.static(path.join(__dirname, "build")));
+// app.get("/", function (req, res) {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
 wss.on("connection", (newClient) => {
   clients.push(newClient);
